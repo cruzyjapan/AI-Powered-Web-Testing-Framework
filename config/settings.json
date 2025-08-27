@@ -1,0 +1,68 @@
+{
+  "project_name": "WebTestAI",
+  "version": "1.0.0",
+  "ai_cli_settings": {
+    "default_cli": "gemini",
+    "gemini": {
+      "enabled": true,
+      "model": "gemini-2.5-pro",
+      "timeout": 300,
+      "auto_extend": true,
+      "max_timeout": 3600,
+      "comment": "timeout: 初期タイムアウト(秒), max_timeout: 最大実行時間(秒), auto_extend: 自動延長有効化"
+    },
+    "claude": {
+      "enabled": true,
+      "model": "claude-sonnet-4",
+      "timeout": 300,
+      "auto_extend": true,
+      "max_timeout": 3600,
+      "comment": "最大1時間まで自動的にタイムアウトを延長"
+    }
+  },
+  "test_targets": [
+    {
+      "name": "テストサイト",
+      "base_url": "https://example.com",
+      "admin_url": "https://example.com/admin",
+      "basic_auth": {
+        "enabled": false,
+        "username": "",
+        "password": ""
+      },
+      "login_credentials": {
+        "admin": {
+          "email": "admin@example.com",
+          "password": "admin_password"
+        },
+        "user": {
+          "email": "user@example.com",
+          "password": "user_password"
+        }
+      }
+    }
+  ],
+  "test_options": {
+    "screenshot_enabled": true,
+    "video_enabled": false,
+    "trace_enabled": true,
+    "retry_count": 2,
+    "timeout": 30000,
+    "headless": false
+  },
+  "output_settings": {
+    "formats": [
+      "csv",
+      "excel",
+      "html"
+    ],
+    "screenshot_quality": 90,
+    "report_title": "自動テスト実行結果"
+  },
+  "test_sheet_format": {
+    "project_name": "WebTestAIプロジェクト",
+    "version": "1.0.0",
+    "tester_name": "AI自動テスト",
+    "test_phase": "結合テスト"
+  }
+}

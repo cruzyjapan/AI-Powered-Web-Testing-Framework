@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+
+import { program } from 'commander';
+import TestRunner from './src/test-runner.js';
+import ConfigManager from './src/config-manager.js';
+import TestCaseGenerator from './src/test-case-generator.js';
+import TestCaseManager from './src/test-case-manager.js';
+import TestCaseAutoGenerator from './src/test-case-auto-generator.js';
+
+program
+  .name('web-test')
+  .description('WebTestAI - AI-Powered Web Testing Framework')
+  .version('1.0.0');
+
+program
+  .command('run')
+  .description('テスト実行')
+  .option('--cli <type>', 'AI CLI選択 (gemini|claude|auto)', 'auto')
+  .option('--target <name>', 'テスト対象名')
+  .option('--cases <ids>', 'テストケースID（カンマ区切り）')
+  .option('--category <name>', 'テストカテゴリ')
+  .option('--screenshot <on|off>', 'スクリーンショット', 'on')
+  .option('--format <type>', '出力形式 (csv|excel|html)', 'excel')
+  .option('--parallel <num>', '並列実行数', '1')
+  .option('-v, --verbose', '詳細ログ')
+  .action(async (options) => {
+    const runner = new TestRunner(options);
+    await runner.execute();
+  });
+
+program
+  .command('switch <cli>')
+  .description('デフォルトAI CLI切り替え')
+  .action(async (cli) => {
+    const config = new ConfigManager();
+    await config.switchDefaultCli(cli);
+  });
+
+program
+  .command('config')
+  .description('設定画面表示')
+  .action(async () => {
+    const config = new ConfigManager();
+    await config.showConfigUI();
+  });
+
+program
+  .command('generate')
+  .description('Playwrightでテストケース自動生成')
+  .option('--url <url>', '対象URL指定')
+  .option('--name <name>', 'テストケース名')
+  .option('--edit <test_id>', '既存テストケース編集')
+  .option('--headless <true|false>', 'ヘッドレスモード', 'false')
+  .action(async (options) => {
+    const generator = new TestCaseGenerator(options);
+    await generator.startRecording();
+  });
+
+program
+  .command('cases')
+  .description('テストケース管理')
+  .option('--list', 'テストケース一覧表示')
+  .option('--delete <test_id>', 'テストケース削除')
+  .action(async (options) => {
+    const manager = new TestCaseManager();
+    
+    if (options.list) {
+      await manager.listTestCases();
+    } else if (options.delete) {
+      await manager.deleteTestCase(options.delete);
+    } else {
+      await manager.showUI();
+    }
+  });
+
+program
+  .command('auto-generate')
+  .alias('auto')
+  .description('AIでページを解析してテストケースを自動生成')
+  .option('--url <url>', '解析するページのURL')
+  .option('--headless', 'ヘッドレスモードで実行')
+  .option('--cli <type>', 'AI CLI選択 (gemini|claude|auto)', 'auto')
+  .action(async (options) => {
+    const autoGenerator = new TestCaseAutoGenerator(options);
+    if (options.url) {
+      // URL指定の場合は直接解析
+      const analysis = await autoGenerator.analyzePageWithAI(options.url);
+      console.log(`\n✅ ${analysis.testSuggestions.length}個のテストケースを生成しました`);
+      
+      // 自動保存
+      const saved = await autoGenerator.saveGeneratedTestCases(analysis.testSuggestions);
+      console.log(`📝 保存完了: ${saved.map(tc => tc.test_id).join(', ')}`);
+    } else {
+      // 対話式モード
+      await autoGenerator.interactiveAutoGenerate();
+    }
+  });
+
+program.parse();

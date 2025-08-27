@@ -1,0 +1,28 @@
+{
+  "name": "ai-cli-web-test-framework",
+  "version": "1.0.0",
+  "description": "AI CLI統合Webサイトテスト自動化フレームワーク",
+  "main": "src/test-runner.js",
+  "scripts": {
+    "test": "node src/test-runner.js",
+    "health": "./scripts/health-check.sh"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.0",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "xlsx": "^0.18.5",
+    "marked": "^9.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.0",
+    "inquirer": "^9.2.0",
+    "readline-sync": "^1.4.10"
+  },
+  "type": "module",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

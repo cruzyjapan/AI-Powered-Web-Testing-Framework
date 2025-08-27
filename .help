@@ -1,0 +1,39 @@
+WebTestAI - AI-Powered Web Testing Framework
+=============================================
+
+基本コマンド:
+  ./web-test auto             AI自動テスト生成（新機能！）
+  ./web-test generate         テストケース作成（Playwright録画）
+  ./web-test run              テスト実行
+  ./web-test switch <cli>     AI CLI切り替え (gemini/claude/auto)
+  ./web-test config           設定管理
+  ./web-test cases            テストケース管理
+  ./web-test --help           詳細ヘルプ
+
+AI自動テスト生成:
+  ./web-test auto                    対話式でページ解析
+  ./web-test auto --url <URL>        指定URLを解析してテスト生成
+  ./web-test auto --cli claude       Claude CLIを使用
+  ./web-test auto-generate           正式名（autoは短縮形）
+
+AI CLI切り替え:
+  ./web-test switch gemini    Gemini CLIを使用
+  ./web-test switch claude    Claude CLIを使用
+  ./web-test switch auto      自動選択
+
+テスト実行オプション:
+  ./web-test run --cli gemini --cases TC001,TC002 --format excel
+
+よくある間違い:
+  × ./switch gemini    → ○ ./web-test switch gemini
+  × ./run              → ○ ./web-test run
+  × ./generate         → ○ ./web-test generate
+
+環境確認:
+  ./scripts/health-check.sh   システムヘルスチェック
+
+詳細情報:
+  cat HELP.md                 詳細ヘルプ
+  cat QUICK_REFERENCE.md      クイックリファレンス
+  cat README.md               プロジェクト概要
+  cat INSTALL.md              インストールガイド
