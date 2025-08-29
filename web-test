@@ -1,0 +1,252 @@
+#!/usr/bin/env node
+
+import { program } from 'commander';
+import TestRunner from './src/test-runner.js';
+import ConfigManager from './src/config-manager.js';
+import TestCaseGenerator from './src/test-case-generator.js';
+import TestCaseManager from './src/test-case-manager.js';
+import TestCaseAutoGenerator from './src/test-case-auto-generator.js';
+import TestCaseRecorder from './src/test-case-recorder.js';
+import TestCaseOptimizer from './src/test-case-optimizer.js';
+
+program
+  .name('web-test')
+  .description('WebTestAI - AI駆動型Webテスト自動化フレームワーク v2.3.1 - Powered By Yoshimasa Yamamoto \n\n主な機能:\n  🤖 AI自動テスト生成 - URLから最大50個のテストケースを自動生成\n  ✨ テストケース最適化 - 重複削除とテストデータ自動改善\n  🌐 マルチブラウザ対応 - Chromium/Firefox/WebKitで実行可能\n  🛒 EC-CUBE 4.2対応 - EC-CUBEサイトの自動検出と専用解析\n  👁️ 可視要素解析 - 画面表示要素を座標順で完全解析\n  🔒 セキュリティテスト - XSS/SQLインジェクション等を自動検証\n  🎬 操作録画・再生 - ブラウザ操作を録画してテストケース化\n  🇯🇵 日本時間対応 - すべてのタイムスタンプをJSTで記録\n\nクイックスタート:\n  ./web-test auto              # 対話型でテスト自動生成（推奨）\n  ./web-test auto --browser firefox  # Firefoxで生成\n  ./web-test optimize --mode auto --auto-save  # テストケース最適化\n  ./web-test record            # ブラウザ操作を録画\n  ./web-test run               # テスト実行（ファイル選択可能）\n  ./web-test run --browser all # 全ブラウザで実行\n  ./web-test help              # 詳細なヘルプを表示\n\n詳細: README.md または https://github.com/your-repo/WebTestAI')
+  .version('2.3.1');
+
+program
+  .command('run')
+  .description('テストケースを実行します\n\n使用例:\n  ./web-test run                      # ファイル選択して実行\n  ./web-test run --cases TC001,TC002  # 特定テストのみ実行\n  ./web-test run --browser firefox    # Firefoxで実行\n  ./web-test run --browser all        # 全ブラウザで実行\n  ./web-test run --test-file test.json # 特定ファイル指定\n  ./web-test run --no-prompt          # デフォルトで即実行\n  ./web-test run --cli gemini         # Gemini CLI使用')
+  .option('--cli <type>', 'AI CLI選択 (gemini|claude|auto)', 'auto')
+  .option('--browser <type>', 'ブラウザ選択 (chromium|firefox|webkit|all)', 'chromium')
+  .option('--target <name>', 'テスト対象名')
+  .option('--cases <ids>', 'テストケースID（カンマ区切り）')
+  .option('--category <name>', 'テストカテゴリ')
+  .option('--screenshot <on|off>', 'スクリーンショット', 'on')
+  .option('--format <type>', '出力形式 (csv|excel|html)', 'excel')
+  .option('--parallel <num>', '並列実行数', '1')
+  .option('--test-file <filename>', '使用するテストケースファイル')
+  .option('--no-prompt', 'プロンプトをスキップ（デフォルトファイル使用）')
+  .option('-v, --verbose', '詳細ログ')
+  .action(async (options) => {
+    const runner = new TestRunner(options);
+    await runner.execute();
+  });
+
+program
+  .command('switch [cli]')
+  .description('デフォルトAI CLIを切り替えます\n\n使用例:\n  ./web-test switch          # 利用可能なCLI一覧を表示\n  ./web-test switch gemini   # Gemini CLIに切り替え\n  ./web-test switch claude   # Claude Code CLIに切り替え\n  ./web-test switch auto     # 自動選択モード')
+  .action(async (cli) => {
+    const config = new ConfigManager();
+    await config.switchDefaultCli(cli);
+  });
+
+program
+  .command('config')
+  .description('設定画面表示')
+  .action(async () => {
+    const config = new ConfigManager();
+    await config.showConfigUI();
+  });
+
+program
+  .command('generate')
+  .description('Playwrightでブラウザ操作を録画しテストケースを生成\n\n使用例:\n  ./web-test generate                        # 対話式で録画\n  ./web-test generate --url https://example.com  # URL指定\n  ./web-test generate --edit TC001           # 既存編集')
+  .option('--url <url>', '対象URL指定')
+  .option('--name <name>', 'テストケース名')
+  .option('--browser <type>', 'ブラウザ選択 (chromium|firefox|webkit)', 'chromium')
+  .option('--edit <test_id>', '既存テストケース編集')
+  .option('--headless <true|false>', 'ヘッドレスモード', 'false')
+  .action(async (options) => {
+    const generator = new TestCaseGenerator(options);
+    await generator.startRecording();
+  });
+
+program
+  .command('record')
+  .alias('rec')
+  .description('ブラウザ操作を録画してテストケースを作成\n\n使用例:\n  ./web-test record                     # 対話式でURL入力\n  ./web-test record --url https://example.com  # URL指定で録画\n  ./web-test rec                        # エイリアス使用\n\n録画操作:\n  - クリック、入力、スクロールなどすべての操作を記録\n  - 録画終了: ブラウザを閉じるかCtrl+C\n  - 録画データは recordings/ に保存')
+  .option('--url <url>', '録画を開始するURL')
+  .option('--browser <type>', 'ブラウザ選択 (chromium|firefox|webkit)', 'chromium')
+  .option('--video', 'ビデオ録画を有効化', true)
+  .action(async (options) => {
+    const { default: TestCaseRecorder } = await import('./src/test-case-recorder.js');
+    const recorder = new TestCaseRecorder(options);
+    
+    let url = options.url;
+    if (!url) {
+      const { default: inquirer } = await import('inquirer');
+      const answer = await inquirer.prompt([{
+        type: 'input',
+        name: 'url',
+        message: '録画を開始するURL:',
+        default: 'http://localhost:3000'
+      }]);
+      url = answer.url;
+    }
+    
+    await recorder.startRecording(url);
+  });
+
+program
+  .command('cases')
+  .description('テストケースを管理します\n\n使用例:\n  ./web-test cases             # 対話式UI表示\n  ./web-test cases --list      # 一覧表示\n  ./web-test cases --delete TC001  # 削除\n  ./web-test cases --export    # エクスポート')
+  .option('--list', 'テストケース一覧表示')
+  .option('--delete <test_id>', 'テストケース削除')
+  .option('--export', 'テストケースをエクスポート')
+  .action(async (options) => {
+    const manager = new TestCaseManager();
+    
+    if (options.list) {
+      await manager.listTestCases();
+    } else if (options.delete) {
+      await manager.deleteTestCase(options.delete);
+    } else if (options.export) {
+      await manager.exportTestCases();
+    } else {
+      await manager.showUI();
+    }
+  });
+
+program
+  .command('export')
+  .description('テストケースをファイルにエクスポート\n\n使用例:\n  ./web-test export                     # CSV形式（デフォルト）\n  ./web-test export --format json       # JSON形式\n  ./web-test export --format markdown   # Markdown形式\n  ./web-test export --encoding utf8     # UTF-8で出力')
+  .option('--format <type>', 'エクスポート形式 (json|csv|markdown)', 'csv')
+  .option('--encoding <type>', 'エンコーディング (shift_jis|utf8|utf8_bom)', 'shift_jis')
+  .action(async (options) => {
+    const manager = new TestCaseManager();
+    await manager.exportTestCasesWithOptions(options);
+  });
+
+program
+  .command('play')
+  .alias('replay')
+  .description('録画したテストケースを再生します\n\n使用例:\n  ./web-test play --list                 # 録画ファイル一覧\n  ./web-test play --file test.json       # 特定ファイル再生\n  ./web-test play --file test.json --speed 2     # 2倍速\n  ./web-test play --file test.json --headless    # ヘッドレス\n  ./web-test play --file test.json --auto-generate  # テストケース自動生成\n\n注意: JSONファイルのみ対応（.webm動画は不可）')
+  .option('--list', '録画済みファイル一覧を表示')
+  .option('--file <filename>', '再生するファイルを指定')
+  .option('--speed <speed>', '再生速度 (0.5-5)', '1')
+  .option('--headless', 'ヘッドレスモードで実行')
+  .option('--no-generate', 'テストケース生成をスキップ')
+  .option('--auto-generate', 'デフォルト値で自動的にテストケース生成')
+  .action(async (options) => {
+    const recorder = new TestCaseRecorder();
+    
+    if (options.list) {
+      await recorder.listRecordings();
+    } else if (options.file) {
+      await recorder.playRecording(options.file, {
+        speed: parseFloat(options.speed),
+        headless: options.headless,
+        noGenerate: !options.generate,
+        autoGenerate: options.autoGenerate
+      });
+    } else {
+      // 対話式選択
+      await recorder.interactivePlayback();
+    }
+  });
+
+program
+  .command('auto-generate')
+  .alias('auto')
+  .description('AIでページを解析してテストケースを自動生成\n\n使用例:\n  ./web-test auto                    # 対話式（Base/Admin/カスタムURL選択）\n  ./web-test auto --url https://example.com  # URL直接指定\n  ./web-test auto --browser firefox  # Firefoxで解析\n  ./web-test auto --cli gemini       # Gemini CLI使用\n  ./web-test auto --headless         # ヘッドレスモード\n\n生成内容:\n  ✅ 可視要素テスト - 画面表示要素を座標順に完全解析\n  ✅ フォームテスト - プレースホルダー解析で最適データ生成\n  ✅ セキュリティテスト - XSS/SQLインジェクション等15種類\n  ✅ リンクテスト - すべてのリンクとナビゲーション\n  🛒 EC-CUBE検出 - EC-CUBEサイトは自動検出して専用解析\n\n💡 推奨: 最速で包括的なテストケースを作成できます')
+  .option('--url <url>', '解析するページのURL')
+  .option('--browser <type>', 'ブラウザ選択 (chromium|firefox|webkit)', 'chromium')
+  .option('--headless', 'ヘッドレスモードで実行')
+  .option('--cli <type>', 'AI CLI選択 (gemini|claude|auto)', 'auto')
+  .action(async (options) => {
+    const autoGenerator = new TestCaseAutoGenerator(options);
+    if (options.url) {
+      // URL指定の場合は直接解析
+      const analysis = await autoGenerator.analyzePageWithAI(options.url);
+      console.log(`\n✅ ${analysis.testSuggestions.length}個のテストケースを生成しました`);
+      
+      // 自動保存
+      const saved = await autoGenerator.saveGeneratedTestCases(analysis.testSuggestions);
+      console.log(`📝 保存完了: ${saved.map(tc => tc.test_id).join(', ')}`);
+    } else {
+      // 対話式モード
+      await autoGenerator.interactiveAutoGenerate();
+    }
+  });
+
+program
+  .command('optimize')
+  .alias('opt')
+  .description('テストケースをAI CLIでレビュー・最適化\n\n使用例:\n  ./web-test optimize          # 対話型で最適化モード選択\n  ./web-test opt              # エイリアス使用\n  ./web-test optimize --mode auto --auto-save  # 自動最適化を即実行\n\n最適化モード:\n  🚀 自動最適化 - 重複削除、優先度調整、カテゴリ整理 + テストデータ改善\n  📊 カテゴリ別 - 特定カテゴリのみ最適化\n  🎯 優先度別 - 優先度を再評価\n  🔒 セキュリティ - セキュリティテストの重複削除\n  🗑️ クリーンアップ - 無効・重複テスト削除 + テストデータ改善\n  ✨ 完全レビュー - AI CLIで全テストケースを詳細レビュー\n\nテストデータ改善 (auto/cleanupモード):\n  • 検索キーワード: 山田太郎 → ジェラート（ECサイト）\n  • ログイン情報: 適切なメール・パスワードに変更\n  • 登録フォーム: 実在形式の住所・電話番号に変更\n  • テストケース名・期待結果も同時更新')
+  .option('--mode <mode>', '最適化モード (auto|category|priority|security|cleanup|full)', 'auto')
+  .option('--cli <type>', 'AI CLI選択 (gemini|claude|auto)', 'auto')
+  .option('--auto-save', '最適化後に自動的に保存 (確認プロンプトをスキップ)')
+  .action(async (options) => {
+    const optimizer = new TestCaseOptimizer(options);
+    await optimizer.reviewAndOptimize();
+  });
+
+program
+  .command('init')
+  .description('WebTestAIを初期化し、CLI固有の仕様書を読み込みます\n\n動作:\n  1. 現在のCLI環境を検出（Gemini/Claude）\n  2. 対応する仕様書を読み込み（GEMINI.md/claude.md）\n  3. システム仕様を理解して初期設定を実行\n\n使用例:\n  ./web-test init              # 自動検出して初期化\n  ./web-test init --cli gemini # Gemini CLI用に初期化\n  ./web-test init --cli claude # Claude CLI用に初期化')
+  .option('--cli <type>', 'CLI指定 (gemini|claude|auto)', 'auto')
+  .action(async (options) => {
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    const chalk = (await import('chalk')).default;
+    
+    console.log(chalk.cyan('\n🚀 WebTestAI 初期化開始\n'));
+    
+    // CLI検出
+    let detectedCli = options.cli;
+    if (detectedCli === 'auto') {
+      const { execSync } = await import('child_process');
+      
+      try {
+        execSync('which gemini', { stdio: 'ignore' });
+        detectedCli = 'gemini';
+        console.log(chalk.green('✅ Gemini CLI を検出しました'));
+      } catch {}
+      
+      try {
+        execSync('which claude', { stdio: 'ignore' });
+        if (detectedCli === 'gemini') {
+          console.log(chalk.green('✅ Claude Code CLI も検出しました'));
+        } else {
+          detectedCli = 'claude';
+          console.log(chalk.green('✅ Claude Code CLI を検出しました'));
+        }
+      } catch {}
+      
+      if (!detectedCli || detectedCli === 'auto') {
+        console.log(chalk.yellow('⚠️  AI CLIが見つかりません。手動で指定してください。'));
+        detectedCli = 'gemini'; // デフォルト
+      }
+    }
+    
+    // 仕様書読み込み
+    const specFile = detectedCli === 'claude' ? 'claude.md' : 'GEMINI.md';
+    const specPath = path.join(process.cwd(), specFile);
+    
+    try {
+      const specContent = await fs.readFile(specPath, 'utf-8');
+      console.log(chalk.blue(`\n📖 ${specFile} を読み込みました`));
+      console.log(chalk.gray('   システム仕様を理解しています...\n'));
+      
+      // 仕様書の主要セクションを表示
+      const lines = specContent.split('\n');
+      const sections = lines.filter(line => line.startsWith('## ')).slice(0, 5);
+      console.log(chalk.white('読み込んだ仕様セクション:'));
+      sections.forEach(section => {
+        console.log(chalk.gray(`   ${section.replace('## ', '• ')}`));
+      });
+      
+      console.log(chalk.green(`\n✅ ${detectedCli === 'claude' ? 'Claude Code' : 'Gemini'} CLI用の初期化が完了しました`));
+      console.log(chalk.cyan('\n📝 次のステップ:'));
+      console.log('   1. ./init.sh を実行して環境をセットアップ');
+      console.log('   2. ./web-test auto でテストケースを自動生成');
+      console.log('   3. ./web-test run でテストを実行\n');
+      
+    } catch (error) {
+      console.log(chalk.red(`❌ ${specFile} が見つかりません`));
+      console.log(chalk.yellow('   仕様書ファイルが存在することを確認してください\n'));
+    }
+  });
+
+program.parse(process.argv);

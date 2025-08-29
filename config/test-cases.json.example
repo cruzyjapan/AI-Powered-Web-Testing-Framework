@@ -1,0 +1,121 @@
+{
+  "test_cases": [
+    {
+      "test_id": "TC001",
+      "test_category": "基本機能",
+      "test_case_name": "ページ表示確認",
+      "priority": "High",
+      "target_url": "http://localhost:3000",
+      "preconditions": "http://localhost:3000にアクセス可能",
+      "test_steps": [
+        {
+          "step_number": 1,
+          "action": "manual",
+          "description": "ページにアクセスする"
+        },
+        {
+          "step_number": 2,
+          "action": "manual",
+          "description": "2. ページの読み込みを待つ。"
+        },
+        {
+          "step_number": 3,
+          "action": "manual",
+          "description": "3. ページタイトルが正しく表示されることを確認。"
+        }
+      ],
+      "expected_result": "ページが正常に表示され、タイトルが表示される",
+      "test_data": {
+        "generated_by": "手動作成",
+        "source_url": "http://localhost:3000",
+        "generation_date": "2025-01-01T00:00:00.000Z"
+      },
+      "generated_playwright_code": "",
+      "screenshots": [],
+      "created_date": "2025-01-01T00:00:00.000Z",
+      "updated_date": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "test_id": "TC002",
+      "test_category": "ログイン機能",
+      "test_case_name": "正常なログイン",
+      "priority": "High",
+      "target_url": "http://localhost:3000",
+      "preconditions": "http://localhost:3000にアクセス可能",
+      "test_steps": [
+        {
+          "step_number": 1,
+          "action": "manual",
+          "description": "ページにアクセスする"
+        },
+        {
+          "step_number": 2,
+          "action": "manual",
+          "description": "2. ユーザー名入力欄に「user@example.com」を入力する。"
+        },
+        {
+          "step_number": 3,
+          "action": "manual",
+          "description": "3. パスワード入力欄に「user_password」を入力する。"
+        },
+        {
+          "step_number": 4,
+          "action": "manual",
+          "description": "4. ログインボタンをクリックする。"
+        }
+      ],
+      "expected_result": "正常にログインしてダッシュボードが表示される",
+      "test_data": {
+        "generated_by": "AI自動生成",
+        "source_url": "http://localhost:3000",
+        "generation_date": "2025-01-01T00:00:00.000Z"
+      },
+      "generated_playwright_code": "",
+      "screenshots": [],
+      "created_date": "2025-01-01T00:00:00.000Z",
+      "updated_date": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "test_id": "TC003",
+      "test_category": "ログイン機能/エラーハンドリング",
+      "test_case_name": "無効な認証情報でのログイン",
+      "priority": "Medium",
+      "target_url": "http://localhost:3000",
+      "preconditions": "http://localhost:3000にアクセス可能",
+      "test_steps": [
+        {
+          "step_number": 1,
+          "action": "manual",
+          "description": "ページにアクセスする"
+        },
+        {
+          "step_number": 2,
+          "action": "manual",
+          "description": "2. ユーザー名入力欄に「invalid_user」を入力する。"
+        },
+        {
+          "step_number": 3,
+          "action": "manual",
+          "description": "3. パスワード入力欄に「wrong_password」を入力する。"
+        },
+        {
+          "step_number": 4,
+          "action": "manual",
+          "description": "4. ログインボタンをクリックする。"
+        }
+      ],
+      "expected_result": "認証エラーメッセージが表示される",
+      "test_data": {
+        "generated_by": "AI自動生成",
+        "source_url": "http://localhost:3000",
+        "generation_date": "2025-01-01T00:00:00.000Z"
+      },
+      "generated_playwright_code": "",
+      "screenshots": [],
+      "created_date": "2025-01-01T00:00:00.000Z",
+      "updated_date": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "last_updated": "2025-01-01T00:00:00.000Z",
+  "version": "1.0.0"
+}

@@ -1,0 +1,150 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景とタイトル -->
+  <rect width="1200" height="800" fill="#f8f9fa"/>
+  
+  <!-- タイトル -->
+  <text x="600" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    WebTestAI - AI駆動型Webテスト自動化フレームワーク
+  </text>
+  
+  <!-- メインフロー -->
+  <g id="main-flow">
+    <!-- URLからテスト実行までのフロー -->
+    <rect x="50" y="100" width="120" height="60" rx="10" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+    <text x="110" y="135" text-anchor="middle" fill="white" font-size="16" font-weight="bold">URL入力</text>
+    
+    <!-- 矢印 -->
+    <path d="M 170 130 L 220 130" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    
+    <!-- AI選択 -->
+    <rect x="230" y="80" width="140" height="100" rx="10" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+    <text x="300" y="110" text-anchor="middle" fill="white" font-size="14" font-weight="bold">AI CLI選択</text>
+    <text x="300" y="135" text-anchor="middle" fill="white" font-size="12">・Gemini CLI</text>
+    <text x="300" y="155" text-anchor="middle" fill="white" font-size="12">・Claude Code CLI</text>
+    
+    <!-- 矢印 -->
+    <path d="M 370 130 L 420 130" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  </g>
+  
+  <!-- テスト生成方法 -->
+  <g id="test-generation">
+    <rect x="430" y="80" width="300" height="280" rx="15" fill="#ffffff" stroke="#95a5a6" stroke-width="2"/>
+    <text x="580" y="110" text-anchor="middle" fill="#2c3e50" font-size="18" font-weight="bold">テストケース生成</text>
+    
+    <!-- AI自動生成 -->
+    <rect x="450" y="130" width="260" height="60" rx="8" fill="#16a085" stroke="#1abc9c" stroke-width="2"/>
+    <text x="580" y="155" text-anchor="middle" fill="white" font-size="14" font-weight="bold">🤖 AI自動生成</text>
+    <text x="580" y="175" text-anchor="middle" fill="white" font-size="11">最大50個のテストケース自動生成</text>
+    
+    <!-- ブラウザ操作録画 -->
+    <rect x="450" y="200" width="260" height="60" rx="8" fill="#8e44ad" stroke="#9b59b6" stroke-width="2"/>
+    <text x="580" y="225" text-anchor="middle" fill="white" font-size="14" font-weight="bold">🎬 ブラウザ操作録画</text>
+    <text x="580" y="245" text-anchor="middle" fill="white" font-size="11">実際の操作をテストケース化</text>
+    
+    <!-- 録画再生 -->
+    <rect x="450" y="270" width="260" height="60" rx="8" fill="#f39c12" stroke="#f1c40f" stroke-width="2"/>
+    <text x="580" y="295" text-anchor="middle" fill="white" font-size="14" font-weight="bold">▶️ 録画再生</text>
+    <text x="580" y="315" text-anchor="middle" fill="white" font-size="11">録画した操作を自動再生</text>
+  </g>
+  
+  <!-- 矢印 -->
+  <path d="M 730 220 L 780 220" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- テスト実行 -->
+  <rect x="790" y="170" width="150" height="100" rx="10" fill="#27ae60" stroke="#229954" stroke-width="2"/>
+  <text x="865" y="205" text-anchor="middle" fill="white" font-size="16" font-weight="bold">テスト実行</text>
+  <text x="865" y="230" text-anchor="middle" fill="white" font-size="12">・並列実行</text>
+  <text x="865" y="250" text-anchor="middle" fill="white" font-size="12">・詳細ログ出力</text>
+  
+  <!-- 矢印 -->
+  <path d="M 940 220 L 990 220" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- レポート -->
+  <rect x="1000" y="170" width="150" height="100" rx="10" fill="#34495e" stroke="#2c3e50" stroke-width="2"/>
+  <text x="1075" y="205" text-anchor="middle" fill="white" font-size="16" font-weight="bold">テストレポート</text>
+  <text x="1075" y="230" text-anchor="middle" fill="white" font-size="12">・成功/失敗結果</text>
+  <text x="1075" y="250" text-anchor="middle" fill="white" font-size="12">・スクリーンショット</text>
+  
+  <!-- 主要機能 -->
+  <g id="features">
+    <rect x="50" y="400" width="1100" height="360" rx="15" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+    <text x="600" y="430" text-anchor="middle" fill="#2c3e50" font-size="20" font-weight="bold">主要機能</text>
+    
+    <!-- インテリジェント自動テスト生成 -->
+    <g transform="translate(100, 460)">
+      <rect width="220" height="120" rx="10" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">インテリジェント</text>
+      <text x="110" y="45" text-anchor="middle" fill="white" font-size="14" font-weight="bold">自動テスト生成</text>
+      <text x="110" y="70" text-anchor="middle" fill="white" font-size="11">・包括的要素解析</text>
+      <text x="110" y="88" text-anchor="middle" fill="white" font-size="11">・コンテキスト理解</text>
+      <text x="110" y="106" text-anchor="middle" fill="white" font-size="11">・フォーム意図検出</text>
+    </g>
+    
+    <!-- セキュリティテスト自動化 -->
+    <g transform="translate(350, 460)">
+      <rect width="220" height="120" rx="10" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">セキュリティテスト</text>
+      <text x="110" y="45" text-anchor="middle" fill="white" font-size="14" font-weight="bold">自動化</text>
+      <text x="110" y="70" text-anchor="middle" fill="white" font-size="11">・XSS攻撃テスト</text>
+      <text x="110" y="88" text-anchor="middle" fill="white" font-size="11">・SQLインジェクション</text>
+      <text x="110" y="106" text-anchor="middle" fill="white" font-size="11">・CSRF対策検証</text>
+    </g>
+    
+    <!-- 高度な機能 -->
+    <g transform="translate(600, 460)">
+      <rect width="220" height="120" rx="10" fill="#16a085" stroke="#1abc9c" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">高度な機能</text>
+      <text x="110" y="50" text-anchor="middle" fill="white" font-size="11">・セッション維持</text>
+      <text x="110" y="68" text-anchor="middle" fill="white" font-size="11">・タブ切り替え対応</text>
+      <text x="110" y="86" text-anchor="middle" fill="white" font-size="11">・セレクトメニュー対応</text>
+      <text x="110" y="104" text-anchor="middle" fill="white" font-size="11">・リンクテキスト抽出</text>
+    </g>
+    
+    <!-- デュアルAI対応 -->
+    <g transform="translate(850, 460)">
+      <rect width="220" height="120" rx="10" fill="#8e44ad" stroke="#9b59b6" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">デュアルAI対応</text>
+      <text x="110" y="50" text-anchor="middle" fill="white" font-size="11">・Gemini CLI</text>
+      <text x="110" y="68" text-anchor="middle" fill="white" font-size="11">・Claude Code CLI</text>
+      <text x="110" y="86" text-anchor="middle" fill="white" font-size="11">・シームレス切り替え</text>
+      <text x="110" y="104" text-anchor="middle" fill="white" font-size="11">・最適なAI選択</text>
+    </g>
+    
+    <!-- テストケース管理 -->
+    <g transform="translate(225, 610)">
+      <rect width="220" height="120" rx="10" fill="#f39c12" stroke="#f1c40f" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">テストケース管理</text>
+      <text x="110" y="50" text-anchor="middle" fill="white" font-size="11">・自動バックアップ</text>
+      <text x="110" y="68" text-anchor="middle" fill="white" font-size="11">・バージョン管理</text>
+      <text x="110" y="86" text-anchor="middle" fill="white" font-size="11">・エクスポート機能</text>
+      <text x="110" y="104" text-anchor="middle" fill="white" font-size="11">・JSON形式保存</text>
+    </g>
+    
+    <!-- レポート機能 -->
+    <g transform="translate(475, 610)">
+      <rect width="220" height="120" rx="10" fill="#27ae60" stroke="#229954" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">レポート機能</text>
+      <text x="110" y="50" text-anchor="middle" fill="white" font-size="11">・詳細ログ出力</text>
+      <text x="110" y="68" text-anchor="middle" fill="white" font-size="11">・実行結果表示</text>
+      <text x="110" y="86" text-anchor="middle" fill="white" font-size="11">・エラー詳細</text>
+      <text x="110" y="104" text-anchor="middle" fill="white" font-size="11">・統計情報</text>
+    </g>
+    
+    <!-- パフォーマンス -->
+    <g transform="translate(725, 610)">
+      <rect width="220" height="120" rx="10" fill="#34495e" stroke="#2c3e50" stroke-width="2"/>
+      <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">パフォーマンス</text>
+      <text x="110" y="50" text-anchor="middle" fill="white" font-size="11">・並列実行対応</text>
+      <text x="110" y="68" text-anchor="middle" fill="white" font-size="11">・30-60秒で50テスト生成</text>
+      <text x="110" y="86" text-anchor="middle" fill="white" font-size="11">・5-10秒/ケース実行</text>
+      <text x="110" y="104" text-anchor="middle" fill="white" font-size="11">・最小CPU負荷</text>
+    </g>
+  </g>
+  
+  <!-- 矢印マーカー定義 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34495e"/>
+    </marker>
+  </defs>
+</svg>
