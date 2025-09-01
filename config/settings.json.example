@@ -1,0 +1,145 @@
+{
+  "project_name": "WebTestAI",
+  "version": "1.0.0",
+  "ai_cli_settings": {
+    "default_cli": "auto",
+    "gemini": {
+      "enabled": true,
+      "model": "gemini-2.5-pro",
+      "timeout": 300,
+      "auto_extend": true,
+      "max_timeout": 3600,
+      "comment": "timeout: 初期タイムアウト(秒), max_timeout: 最大実行時間(秒), auto_extend: 自動延長有効化"
+    },
+    "claude": {
+      "enabled": true,
+      "model": "claude-sonnet-4",
+      "timeout": 300,
+      "auto_extend": true,
+      "max_timeout": 3600,
+      "comment": "最大1時間まで自動的にタイムアウトを延長"
+    }
+  },
+  "test_targets": [
+    {
+      "name": "ローカルWebサイト",
+      "base_url": "http://localhost:3000",
+      "admin_url": "http://localhost:3000/admin",
+      "basic_auth": {
+        "enabled": false,
+        "username": "",
+        "password": ""
+      },
+      "login_credentials": {
+        "admin": {
+          "email": "admin@example.com",
+          "password": "admin_password"
+        },
+        "user": {
+          "email": "user@example.com",
+          "password": "user_password"
+        }
+      }
+    },
+    {
+      "name": "EC-CUBE4.2サイト",
+      "base_url": "http://localhost:8080",
+      "admin_url": "http://localhost:8080/admin",
+      "eccube_config": {
+        "enabled": true,
+        "version": "4.2",
+        "admin_path": "/admin",
+        "test_mode": true,
+        "auto_detect": true
+      },
+      "basic_auth": {
+        "enabled": false,
+        "username": "",
+        "password": ""
+      },
+      "login_credentials": {
+        "admin": {
+          "email": "admin@example.com",
+          "password": "password"
+        },
+        "user": {
+          "email": "test@example.com",
+          "password": "password"
+        }
+      }
+    }
+  ],
+  "eccube_settings": {
+    "enabled": false,
+    "auto_detection": true,
+    "version": "4.2",
+    "test_data": {
+      "use_default": true,
+      "custom_data_path": null
+    },
+    "scenarios": {
+      "frontend": {
+        "product_browse": true,
+        "cart_checkout": true,
+        "member_registration": true,
+        "search": true
+      },
+      "backend": {
+        "product_management": true,
+        "order_management": true,
+        "customer_management": true,
+        "content_management": true
+      }
+    },
+    "performance": {
+      "measure": true,
+      "thresholds": {
+        "page_load": 3000,
+        "first_paint": 1000,
+        "dom_content_loaded": 2000
+      }
+    }
+  },
+  "test_options": {
+    "screenshot_enabled": true,
+    "video_enabled": false,
+    "trace_enabled": false,
+    "retry_count": 2,
+    "timeout": 30000,
+    "headless": false,
+    "browsers": {
+      "default": "chromium",
+      "available": ["chromium", "firefox", "webkit"],
+      "cross_browser_test": false,
+      "browser_specific_settings": {
+        "chromium": {
+          "args": ["--lang=ja-JP", "--disable-blink-features=AutomationControlled"]
+        },
+        "firefox": {
+          "preferences": {
+            "intl.accept_languages": "ja-JP"
+          }
+        },
+        "webkit": {
+          "viewport": null
+        }
+      }
+    }
+  },
+  "output_settings": {
+    "formats": ["csv", "excel", "html"],
+    "screenshot_quality": 90,
+    "report_title": "自動テスト実行結果",
+    "encoding": {
+      "primary": "shift_jis",
+      "secondary": "utf8",
+      "comment": "primary: メインエンコーディング(shift_jis/utf8), secondary: サブエンコーディング"
+    }
+  },
+  "test_sheet_format": {
+    "project_name": "WebTestAIプロジェクト",
+    "version": "1.0.0",
+    "tester_name": "AI自動テスト",
+    "test_phase": "結合テスト"
+  }
+}

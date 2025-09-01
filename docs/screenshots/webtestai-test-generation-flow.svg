@@ -1,0 +1,175 @@
+<svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="1400" height="900" fill="#fafbfc"/>
+  
+  <!-- タイトル -->
+  <text x="700" y="40" font-size="26" font-weight="bold" text-anchor="middle" fill="#1a1a2e">
+    WebTestAI テストケース生成の流れ
+  </text>
+  
+  <!-- フェーズ1: URL入力 -->
+  <g id="phase1">
+    <rect x="50" y="80" width="300" height="180" rx="15" fill="#ffffff" stroke="#e1e4e8" stroke-width="2"/>
+    <rect x="50" y="80" width="300" height="50" rx="15" fill="#0366d6"/>
+    <text x="200" y="110" text-anchor="middle" fill="white" font-size="18" font-weight="bold">1. URL入力</text>
+    
+    <text x="70" y="160" font-size="14" fill="#24292e">選択肢:</text>
+    <text x="80" y="180" font-size="12" fill="#586069">• Base URL (設定から)</text>
+    <text x="80" y="200" font-size="12" fill="#586069">• Admin URL (設定から)</text>
+    <text x="80" y="220" font-size="12" fill="#586069">• カスタムURL (直接入力)</text>
+    <text x="80" y="240" font-size="12" fill="#586069">• セッション維持オプション</text>
+  </g>
+  
+  <!-- フェーズ2: ページ解析 -->
+  <g id="phase2">
+    <rect x="400" y="80" width="350" height="380" rx="15" fill="#ffffff" stroke="#e1e4e8" stroke-width="2"/>
+    <rect x="400" y="80" width="350" height="50" rx="15" fill="#28a745"/>
+    <text x="575" y="110" text-anchor="middle" fill="white" font-size="18" font-weight="bold">2. ページ解析</text>
+    
+    <!-- 解析内容 -->
+    <g transform="translate(420, 150)">
+      <circle cx="15" cy="15" r="12" fill="#ffd93d"/>
+      <text x="12" y="20" text-anchor="middle" font-size="14" font-weight="bold">1</text>
+      <text x="35" y="20" font-size="14" fill="#24292e">可視要素の収集</text>
+      <text x="35" y="40" font-size="11" fill="#586069">座標順（左上→右下）で解析</text>
+    </g>
+    
+    <g transform="translate(420, 210)">
+      <circle cx="15" cy="15" r="12" fill="#6bcf7f"/>
+      <text x="12" y="20" text-anchor="middle" font-size="14" font-weight="bold">2</text>
+      <text x="35" y="20" font-size="14" fill="#24292e">フォーム意図検出</text>
+      <text x="35" y="40" font-size="11" fill="#586069">検索・ログイン・登録・お問い合わせ</text>
+    </g>
+    
+    <g transform="translate(420, 270)">
+      <circle cx="15" cy="15" r="12" fill="#1e90ff"/>
+      <text x="12" y="20" text-anchor="middle" font-size="14" font-weight="bold">3</text>
+      <text x="35" y="20" font-size="14" fill="#24292e">プレースホルダー解析</text>
+      <text x="35" y="40" font-size="11" fill="#586069">「例: 田中太郎」→「田中太郎」生成</text>
+    </g>
+    
+    <g transform="translate(420, 330)">
+      <circle cx="15" cy="15" r="12" fill="#ff6b6b"/>
+      <text x="12" y="20" text-anchor="middle" font-size="14" font-weight="bold">4</text>
+      <text x="35" y="20" font-size="14" fill="#24292e">リンク・ボタン検出</text>
+      <text x="35" y="40" font-size="11" fill="#586069">alt属性・aria-label・テキスト抽出</text>
+    </g>
+    
+    <g transform="translate(420, 390)">
+      <circle cx="15" cy="15" r="12" fill="#a855f7"/>
+      <text x="12" y="20" text-anchor="middle" font-size="14" font-weight="bold">5</text>
+      <text x="35" y="20" font-size="14" fill="#24292e">セレクト要素解析</text>
+      <text x="35" y="40" font-size="11" fill="#586069">ドロップダウンメニューの選択肢</text>
+    </g>
+  </g>
+  
+  <!-- フェーズ3: AI処理 -->
+  <g id="phase3">
+    <rect x="800" y="80" width="350" height="380" rx="15" fill="#ffffff" stroke="#e1e4e8" stroke-width="2"/>
+    <rect x="800" y="80" width="350" height="50" rx="15" fill="#6f42c1"/>
+    <text x="975" y="110" text-anchor="middle" fill="white" font-size="18" font-weight="bold">3. AI処理</text>
+    
+    <!-- AI処理内容 -->
+    <rect x="820" y="150" width="310" height="60" rx="10" fill="#f6f8fa" stroke="#d1d5da"/>
+    <text x="975" y="175" text-anchor="middle" font-size="14" font-weight="bold">Gemini/Claude CLI</text>
+    <text x="975" y="195" text-anchor="middle" font-size="11" fill="#586069">選択されたAIで処理</text>
+    
+    <text x="830" y="235" font-size="14" fill="#24292e" font-weight="bold">生成内容:</text>
+    
+    <text x="840" y="260" font-size="12" fill="#24292e">✓ 包括的テストケース</text>
+    <text x="850" y="280" font-size="11" fill="#586069">正常系・異常系・境界値</text>
+    
+    <text x="840" y="305" font-size="12" fill="#24292e">✓ セキュリティテスト</text>
+    <text x="850" y="325" font-size="11" fill="#586069">XSS・SQLインジェクション</text>
+    
+    <text x="840" y="350" font-size="12" fill="#24292e">✓ 具体的なテストデータ</text>
+    <text x="850" y="370" font-size="11" fill="#586069">フィールドに適したデータ生成</text>
+    
+    <text x="840" y="395" font-size="12" fill="#24292e">✓ 期待結果の明確化</text>
+    <text x="850" y="415" font-size="11" fill="#586069">各テストの予想される動作</text>
+  </g>
+  
+  <!-- テストケース例 -->
+  <g id="test-examples">
+    <rect x="50" y="490" width="1300" height="380" rx="15" fill="#f6f8fa" stroke="#d1d5da" stroke-width="2"/>
+    <text x="700" y="520" text-anchor="middle" font-size="20" font-weight="bold" fill="#24292e">生成されるテストケースの例</text>
+    
+    <!-- 例1: 正常系 -->
+    <g transform="translate(80, 550)">
+      <rect width="380" height="140" rx="10" fill="#d4edda" stroke="#c3e6cb" stroke-width="2"/>
+      <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#155724">正常系テスト</text>
+      <text x="15" y="50" font-size="12" fill="#155724">テスト名: 検索フォーム_「ノートパソコン」で検索</text>
+      <text x="15" y="70" font-size="11" fill="#1e7e34">カテゴリ: フォーム</text>
+      <text x="15" y="88" font-size="11" fill="#1e7e34">アクション: submit</text>
+      <text x="15" y="106" font-size="11" fill="#1e7e34">テストデータ: {search_keyword: "ノートパソコン"}</text>
+      <text x="15" y="124" font-size="11" fill="#1e7e34">期待結果: 検索結果が表示される</text>
+    </g>
+    
+    <!-- 例2: セキュリティ -->
+    <g transform="translate(490, 550)">
+      <rect width="380" height="140" rx="10" fill="#f8d7da" stroke="#f5c6cb" stroke-width="2"/>
+      <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#721c24">セキュリティテスト</text>
+      <text x="15" y="50" font-size="12" fill="#721c24">テスト名: お問い合わせフォーム_XSS攻撃防御</text>
+      <text x="15" y="70" font-size="11" fill="#a94442">カテゴリ: セキュリティ</text>
+      <text x="15" y="88" font-size="11" fill="#a94442">アクション: fill</text>
+      <text x="15" y="106" font-size="11" fill="#a94442">テストデータ: &lt;script&gt;alert('XSS')&lt;/script&gt;</text>
+      <text x="15" y="124" font-size="11" fill="#a94442">期待結果: スクリプトが実行されない</text>
+    </g>
+    
+    <!-- 例3: 境界値 -->
+    <g transform="translate(900, 550)">
+      <rect width="380" height="140" rx="10" fill="#cce5ff" stroke="#b8daff" stroke-width="2"/>
+      <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#004085">境界値テスト</text>
+      <text x="15" y="50" font-size="12" fill="#004085">テスト名: 入力フィールド_最大文字数テスト</text>
+      <text x="15" y="70" font-size="11" fill="#0c5460">カテゴリ: バリデーション</text>
+      <text x="15" y="88" font-size="11" fill="#0c5460">アクション: fill</text>
+      <text x="15" y="106" font-size="11" fill="#0c5460">テストデータ: "A" × 256文字</text>
+      <text x="15" y="124" font-size="11" fill="#0c5460">期待結果: 255文字で切り捨てられる</text>
+    </g>
+    
+    <!-- 例4: ナビゲーション -->
+    <g transform="translate(80, 710)">
+      <rect width="380" height="120" rx="10" fill="#fff3cd" stroke="#ffeeba" stroke-width="2"/>
+      <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#856404">ナビゲーションテスト</text>
+      <text x="15" y="50" font-size="12" fill="#856404">テスト名: メニューリンク_会社概要ページ遷移</text>
+      <text x="15" y="70" font-size="11" fill="#b08d57">カテゴリ: ナビゲーション</text>
+      <text x="15" y="88" font-size="11" fill="#b08d57">アクション: click</text>
+      <text x="15" y="106" font-size="11" fill="#b08d57">期待結果: /about ページに遷移</text>
+    </g>
+    
+    <!-- 例5: フォーム入力 -->
+    <g transform="translate(490, 710)">
+      <rect width="380" height="120" rx="10" fill="#e2e3e5" stroke="#d6d8db" stroke-width="2"/>
+      <text x="190" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#383d41">フォーム入力テスト</text>
+      <text x="15" y="50" font-size="12" fill="#383d41">テスト名: 会員登録_正常な情報で登録</text>
+      <text x="15" y="70" font-size="11" fill="#6c757d">カテゴリ: フォーム</text>
+      <text x="15" y="88" font-size="11" fill="#6c757d">テストデータ: {email: "test@example.com", ...}</text>
+      <text x="15" y="106" font-size="11" fill="#6c757d">期待結果: 登録完了画面が表示</text>
+    </g>
+  </g>
+  
+  <!-- 矢印 -->
+  <defs>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#586069"/>
+    </marker>
+  </defs>
+  
+  <!-- フロー矢印 -->
+  <path d="M 350 170 L 400 170" stroke="#586069" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
+  <path d="M 750 270 L 800 270" stroke="#586069" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
+  
+  <!-- 成果物への矢印 -->
+  <path d="M 975 460 L 975 490" stroke="#586069" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
+  <text x="985" y="480" font-size="12" fill="#586069">最大50個生成</text>
+  
+  <!-- 注釈 -->
+  <rect x="1200" y="150" width="180" height="200" rx="10" fill="#fff5b1" stroke="#ffe082" stroke-width="2"/>
+  <text x="1290" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="#f57c00">ポイント</text>
+  <text x="1210" y="200" font-size="11" fill="#e65100">• URLを指定するだけ</text>
+  <text x="1210" y="220" font-size="11" fill="#e65100">• AIが自動で解析</text>
+  <text x="1210" y="240" font-size="11" fill="#e65100">• 具体的なデータ生成</text>
+  <text x="1210" y="260" font-size="11" fill="#e65100">• 包括的なテスト網羅</text>
+  <text x="1210" y="280" font-size="11" fill="#e65100">• セキュリティも考慮</text>
+  <text x="1210" y="300" font-size="11" fill="#e65100">• 30-60秒で完了</text>
+</svg>
